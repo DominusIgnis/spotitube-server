@@ -9,27 +9,28 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 
-@Path("/api/login")
+@Path("/login")
 public class LoginApi {
 
     @Inject
     private IUserDao userDao;
 
+    @POST
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response login(UserDTO userDTO) {
+        String tokenString = userDao.login(userDTO.user, userDTO.password);
+        TokenDTO tokenDTO = new TokenDTO();
+        tokenDTO.user = userDTO.user;
+        tokenDTO.token = tokenString;
+
+        return Response.status(200).entity(tokenDTO).build();
+    }
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello() {
         return "hallo! hallo!";
-    }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(UserDTO userDTO) {
-        String tokenString = userDao.login(userDTO.userName, userDTO.password);
-        TokenDTO tokenDTO = new TokenDTO();
-        tokenDTO.userName = userDTO.userName;
-        tokenDTO.token = tokenString;
-
-        return Response.status(200).entity(tokenDTO).build();
     }
 }
