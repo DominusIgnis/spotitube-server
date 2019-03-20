@@ -17,14 +17,15 @@ public class MYSQLConnection implements IConnection {
         {
             System.out.println("Error loading JDBC driver: " + e);
         }
-        Connection cnEmps = null;
+        Connection conn = null;
         try {
-            cnEmps = DriverManager.getConnection("jdbc:mysql://localhost:3306/Spotitube?user=root&password=&serverTimezone=UTC");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Spotitube?user=root&password=&serverTimezone=UTC");
         }
         catch(
                 SQLException e) {
             System.out.println("Error connecting to a database: " + e);
         }
+        return conn;
     }
 
 }
