@@ -19,11 +19,14 @@ public class MYSQLConnection implements IConnection {
         }
         Connection conn = null;
         try {
+            Class.forName("comom.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Spotitube?user=root&password=&serverTimezone=UTC");
         }
         catch(
                 SQLException e) {
             System.out.println("Error connecting to a database: " + e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return conn;
     }
