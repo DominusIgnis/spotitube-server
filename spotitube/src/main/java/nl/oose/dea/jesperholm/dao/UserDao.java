@@ -3,18 +3,20 @@ package nl.oose.dea.jesperholm.dao;
 import nl.oose.dea.jesperholm.connection.ConnectionFactory;
 import nl.oose.dea.jesperholm.connection.IConnection;
 
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UserDao implements IUserDao {
 
     @Override
     public String login(String user, String password) {
         // Select * from user where user = .........
-        IConnection conn = ConnectionFactory.getConnection();
+        IConnection connAdapter = ConnectionFactory.getConnection();
+        Connection conn = connAdapter.getConnection();
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE user=? AND pass=?");
+            Statement ps = conn.prepareStatement("SELECT * FROM user WHERE user=? AND password=?");
             ps.setString(1, user);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
